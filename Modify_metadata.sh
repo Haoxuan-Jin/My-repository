@@ -3,7 +3,7 @@ export bill=$your_bill
 target_id=file_id.txt
 source=file_source.txt
 new_id=file_new_id.txt
-project=haoxuan-modify-metadata3
+project=haoxuan-modify-metadata
 user=jinhaoxuan
 tmp=tmp_file.txt
 
@@ -16,7 +16,7 @@ curl --data '{"name": "'$project'", "description": "A project for testing modify
 #list all files from source project
 line=100
 limit=100
-offset=1
+offset=0
 check=1
 until [ $line -le $check ]
 do
@@ -29,7 +29,7 @@ done
 #list all files from target project
 
 line=100
-offset=1
+offset=0
 until [ $line -le $check ]
 do
 curl -s -H "X-SBG-Auth-Token: $token" -H "content-type: application/json" -X GET "https://cavatica-api.sbgenomics.com/v2/files?limit=$limit&offset=$offset&project=yuankun/bgi-practise-target"|python -m json.tool | grep 'id' | sed  's;            "id": ;;'|sed 's;,;;'|sed 's;";;g' > $tmp
@@ -48,7 +48,7 @@ done
 #get new files id from new project
 curl -s -H "X-SBG-Auth-Token: $token" -H "content-type: application/json" -X GET "https://cavatica-api.sbgenomics.com/v2/files?limit=500&project=$user/$project"|python -m json.tool | grep 'id' | sed  's;            "id": ;;'|sed 's;,;;'|sed 's;";;g' > $new_id
 line=100
-offset=1
+offset=0
 until [ $line -le $check ]
 do
 curl -s -H "X-SBG-Auth-Token: $token" -H "content-type: application/json" -X GET "https://cavatica-api.sbgenomics.com/v2/files?limit=$limit&offset=$offset&project=$user/$project"|python -m json.tool | grep 'id' | sed  's;            "id": ;;'|sed 's;,;;'|sed 's;";;g' > $tmp

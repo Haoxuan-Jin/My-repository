@@ -7,6 +7,12 @@ project=haoxuan-modify-metadata
 user=jinhaoxuan
 tmp=tmp_file.txt
 
+#clean files before start
+if [ -e $target_id ]; then rm $target_id; echo delect $target_id, done.; fi
+if [ -e $source ]; then rm $source; echo delect $source, done.; fi
+if [ -e $new_id ]; then rm $new_id; echo delect $new_id, done.; fi
+if [ -e $tmp ]; then rm $tmp; echo delect $tmp, done.; fi
+
 #get your billing id
 curl -s -H "X-SBG-Auth-Token: $token" -H "content-type: application/json" -X GET "https://cavatica-api.sbgenomics.com/v2/billing/groups"|jq
 
